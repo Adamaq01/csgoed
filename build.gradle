@@ -1,0 +1,52 @@
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
+
+    tasks.withType(JavaCompile) { options.encoding = 'UTF-8' }
+
+    group 'fr.adamaq01'
+    version '1.0.0'
+
+    sourceCompatibility = JavaVersion.VERSION_12
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+        maven { url 'https://oss.sonatype.org/content/repositories/releases/' }
+        maven { url 'https://jitpack.io' }
+        maven {
+            name = 'sonatype'
+            url = 'https://oss.sonatype.org/content/groups/public/'
+        }
+    }
+}
+
+project(':csgoed-api') {
+    dependencies {
+        compile 'org.eclipse.collections:eclipse-collections-api:10.2.0'
+    }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+            }
+        }
+    }
+}
+
+project(':csgoed-impl') {
+    dependencies {
+        compile project(":csgoed-api")
+        compile 'commons-io:commons-io:2.6'
+        compile 'org.apache.commons:commons-lang3:3.9'
+        compile 'com.electronwill.night-config:toml:3.6.2'
+        compile 'com.konghq:unirest-java:3.6.00'
+        compile 'org.eclipse.collections:eclipse-collections:10.2.0'
+        compile 'net.dv8tion:JDA:4.1.1_133'
+    }
+}

@@ -1,0 +1,3 @@
+rootProject.name = 'csgoed'
+include 'csgoed-api', 'csgoed-impl'
+
